@@ -21,8 +21,8 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,0.0.0.0', c
 # Add your domain for production
 if not DEBUG:
     ALLOWED_HOSTS.extend([
-        'yourdomain.com',
-        'www.yourdomain.com',
+        'mechlocator.onrender.com',
+        'www.mechlocator.onrender.com',
         '*',  # Allow all hosts for public internet access
     ])
 
