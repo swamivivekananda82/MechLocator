@@ -1,204 +1,284 @@
-# MechLocator 🚗🔧
+# 🚗 MechLocator - Advanced Automotive Service Platform
 
-A comprehensive web-based application that helps users discover nearby mechanic shops with real-time location services, Google Maps integration, and instant contact capabilities.
+[![Django](https://img.shields.io/badge/Django-4.2.7-green.svg)](https://www.djangoproject.com/)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg)](https://github.com/Vijayapardhu/MechLocator)
+
+A comprehensive, full-stack Django web application for connecting users with nearby mechanic shops. MechLocator provides real-time location services, advanced search capabilities, and a complete user management system with OTP authentication.
 
 ## 🌟 Features
 
-### Core Functionality
-- **Real-time Location Detection**: Automatically detect user location using browser geolocation API
-- **Nearby Mechanic Discovery**: Find mechanic shops within customizable radius (1km, 5km, 10km, 15km)
-- **Google Maps Integration**: Interactive map interface with mechanic markers and user location
-- **One-Click Calling**: Direct phone calls to mechanics using 'tel:' URI scheme
-- **Smart Filtering**: Filter by distance, rating, and availability
-- **Rating System**: 5-star rating system for mechanic shops
+### 🔍 Core Features
+- **Real-time Location Services**: Find mechanics based on GPS location with distance calculations
+- **Advanced Search & Filtering**: Filter by rating, distance, services, and availability
+- **Interactive Google Maps**: Custom markers, directions, and location picker
+- **User Authentication**: Secure JWT-based authentication with OTP verification
+- **Profile Management**: Comprehensive user profiles with activity tracking
+- **Admin Dashboard**: Enhanced Django admin with analytics and bulk operations
 
-### User Experience
-- **Responsive Design**: Mobile-first design that works on all devices
-- **Modern UI**: Beautiful, intuitive interface built with Bootstrap 5
-- **Fast Performance**: Optimized queries and efficient data handling
-- **Accessibility**: WCAG compliant with proper ARIA labels and keyboard navigation
+### 🛡️ Security Features
+- **OTP Authentication**: Email-based two-factor authentication
+- **Session Management**: Secure login tracking and account lockout
+- **CSRF Protection**: Built-in Django security features
+- **Input Validation**: Comprehensive form validation and sanitization
+- **Activity Logging**: Track user actions and admin operations
 
-### Admin Features
-- **Comprehensive Dashboard**: Full CRUD operations for mechanic shops
-- **User Management**: Admin panel for user accounts and profiles
-- **Activity Logging**: Track user actions and search queries
-- **Image Upload**: Support for shop photos and branding
+### 📱 User Experience
+- **Responsive Design**: Mobile-first design with Bootstrap 5
+- **Modern UI**: Clean, intuitive interface with smooth animations
+- **Accessibility**: WCAG 2.1 AA compliant design
+- **Progressive Web App**: Works offline and provides app-like experience
 
-## 🛠️ Technology Stack
+### 🛠️ Admin Features
+- **Enhanced Admin Interface**: Custom admin templates and views
+- **Analytics Dashboard**: User activity and mechanic performance metrics
+- **Bulk Operations**: Mass update ratings and mechanic information
+- **Map View**: Visual representation of all mechanics on a map
+- **Activity Logging**: Comprehensive audit trail of all operations
 
-- **Backend**: Django 4.2.7 (Python web framework)
-- **Database**: SQLite (easily upgradeable to PostgreSQL/MySQL)
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **UI Framework**: Bootstrap 5.3.0
-- **Maps**: Google Maps JavaScript API
-- **Icons**: Font Awesome 6.4.0
-- **Forms**: Django Crispy Forms with Bootstrap 5
-- **Geolocation**: Geopy for distance calculations
+## 🏗️ Architecture
 
-## 📋 Requirements
-
-- Python 3.8+
-- Django 4.2.7
-- Google Maps API Key
-- Modern web browser with geolocation support
-
-## 🚀 Installation
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/Vijayapardhu/mechlocator.git
-cd mechlocator
+```
+MechLocator/
+├── mechlocator/          # Main Django project
+├── mechanics/            # Core mechanic shop functionality
+├── otp_auth/            # OTP authentication system
+├── templates/           # HTML templates
+├── static/              # CSS, JS, and static assets
+├── media/               # User uploaded files
+└── docs/               # Documentation
 ```
 
-### 2. Create Virtual Environment
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+## 🚀 Quick Start
 
-### 3. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
+### Prerequisites
+- Python 3.8 or higher
+- pip (Python package installer)
+- Git
 
-### 4. Environment Configuration
-```bash
-cp .env
-# Edit .env file with your configuration
-```
+### Installation
 
-### 5. Database Setup
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Vijayapardhu/MechLocator.git
+   cd MechLocator
+   ```
 
-### 6. Create Superuser
-```bash
-python manage.py createsuperuser
-```
+2. **Create virtual environment**
+   ```bash
+   python -m venv venv
+   
+   # On Windows
+   venv\Scripts\activate
+   
+   # On macOS/Linux
+   source venv/bin/activate
+   ```
 
-### 7. Collect Static Files
-```bash
-python manage.py collectstatic
-```
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### 8. Run Development Server
-```bash
-python manage.py runserver
-```
+4. **Set up environment variables**
+   ```bash
+   cp env.example .env
+   # Edit .env with your configuration
+   ```
 
-Visit `http://127.0.0.1:8000` to access the application.
+5. **Run database migrations**
+   ```bash
+   python manage.py migrate
+   ```
+
+6. **Create superuser**
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+7. **Populate sample data (optional)**
+   ```bash
+   python manage.py populate_sample_data
+   ```
+
+8. **Run the development server**
+   ```bash
+   python manage.py runserver
+   ```
+
+9. **Access the application**
+   - Main site: http://127.0.0.1:8000/
+   - Admin panel: http://127.0.0.1:8000/admin/
 
 ## ⚙️ Configuration
 
-### Google Maps API
+### Environment Variables
+
+Create a `.env` file in the project root with the following variables:
+
+```env
+# Django Settings
+SECRET_KEY=your-super-secret-key-here
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+# Database
+DATABASE_URL=sqlite:///db.sqlite3
+
+# Google Maps API
+GOOGLE_MAPS_API_KEY=your-google-maps-api-key
+
+# Email Configuration (for OTP)
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-app-password
+DEFAULT_FROM_EMAIL=MechLocator <noreply@yourdomain.com>
+
+# OTP Settings
+OTP_EXPIRY_MINUTES=10
+OTP_LENGTH=6
+```
+
+### Google Maps API Setup
+
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project or select existing one
-3. Enable Maps JavaScript API
-4. Create API key
-5. Add the key to your `.env` file:
-   ```
-   GOOGLE_MAPS_API_KEY=your-api-key-here
-   ```
+3. Enable the following APIs:
+   - Maps JavaScript API
+   - Places API
+   - Geocoding API
+4. Create an API key and add it to your `.env` file
+5. For production, restrict the API key to your domain
 
-### Environment Variables
-Key environment variables in `.env`:
-- `SECRET_KEY`: Django secret key for security
-- `DEBUG`: Set to False in production
-- `GOOGLE_MAPS_API_KEY`: Your Google Maps API key
-- `ALLOWED_HOSTS`: Comma-separated list of allowed hosts
-
-## 📱 Usage
+## 📖 Usage Guide
 
 ### For Users
-1. **Homepage**: Visit the main page to start searching
-2. **Location Access**: Allow location access or manually set location
-3. **Search Filters**: Choose radius and minimum rating
-4. **Browse Results**: View mechanic shops on map and in list
-5. **Contact Mechanics**: Use "Call Now" button for instant contact
-6. **View Details**: Click on mechanic cards for detailed information
+
+1. **Registration & Login**
+   - Create an account with email verification
+   - Use OTP authentication for enhanced security
+   - Manage your profile and preferences
+
+2. **Finding Mechanics**
+   - Allow location access or manually set location
+   - Use filters to narrow down results
+   - View mechanic details and ratings
+   - Get directions and contact information
+
+3. **Contacting Mechanics**
+   - One-click calling feature
+   - WhatsApp integration
+   - Share mechanic locations
 
 ### For Administrators
-1. **Admin Panel**: Access `/admin/` with superuser credentials
-2. **Manage Mechanics**: Add, edit, and delete mechanic shops
-3. **User Management**: Monitor user accounts and activity
-4. **Analytics**: View search queries and user behavior logs
+
+1. **Managing Mechanics**
+   - Add, edit, and delete mechanic shops
+   - Upload images and set working hours
+   - Manage ratings and reviews
+   - Bulk operations for efficiency
+
+2. **Analytics & Reports**
+   - View user activity statistics
+   - Monitor mechanic performance
+   - Track search queries and popular locations
+   - Export data for analysis
+
+3. **System Management**
+   - User management and permissions
+   - Activity logging and audit trails
+   - System configuration and settings
 
 ## 🗄️ Database Models
 
-### Mechanic
-- Basic info (name, address, contact)
-- Location coordinates (latitude, longitude)
-- Rating and working hours
-- Shop images and status
+### Core Models
+- **User**: Extended Django user model with additional fields
+- **Mechanic**: Mechanic shop information with location and services
+- **ActivityLog**: User and admin activity tracking
+- **OTP**: One-time password management
+- **LoginAttempt**: Login security tracking
 
-### User
-- Authentication and profile information
-- Extended profile with phone and address
-- Activity tracking and preferences
-
-### ActivityLog
-- User action logging
-- Search queries and results
-- Call tracking and analytics
+### Relationships
+- Users can have multiple activity logs
+- Mechanics are associated with ratings and reviews
+- OTP codes are linked to user sessions
+- Login attempts track security events
 
 ## 🔧 API Endpoints
 
-- `POST /api/search/`: Search for nearby mechanics
-- `POST /api/log-call/`: Log mechanic calls
-- All endpoints support CSRF protection and proper authentication
+### Authentication
+- `POST /accounts/login/` - User login
+- `POST /accounts/logout/` - User logout
+- `POST /otp/login/` - OTP-based login
+- `POST /otp/verify/` - OTP verification
 
-## 🎨 Customization
+### Mechanics
+- `GET /` - Home page with mechanic search
+- `GET /mechanics/` - List all mechanics
+- `GET /mechanic/<id>/` - Mechanic details
+- `POST /api/search/` - Search mechanics API
+- `POST /api/log-call/` - Log mechanic calls
 
-### Styling
-- Modify `static/css/style.css` for custom styles
-- Update Bootstrap variables in CSS custom properties
-- Add custom animations and transitions
+### User Management
+- `GET /accounts/profile/` - User profile
+- `POST /register/` - User registration
+- `GET /accounts/password_change/` - Password change
 
-### Templates
-- All templates are in `templates/` directory
-- Base template provides consistent layout
-- Easy to modify and extend
+## 🎨 Frontend Features
 
-### JavaScript
-- Main functionality in `static/js/main.js`
-- Modular design for easy customization
-- Utility functions for common operations
+### Technologies Used
+- **Bootstrap 5**: Responsive CSS framework
+- **Font Awesome**: Icon library
+- **Google Maps JavaScript API**: Interactive maps
+- **Vanilla JavaScript**: Custom functionality
+- **CSS3**: Modern styling and animations
+
+### Key Components
+- **Hero Section**: Engaging landing page
+- **Search Interface**: Advanced filtering and sorting
+- **Mechanic Cards**: Information display with actions
+- **Map Integration**: Interactive location services
+- **User Dashboard**: Profile and activity management
 
 ## 🚀 Deployment
 
-### Production Checklist
-- [ ] Set `DEBUG=False` in environment
-- [ ] Configure production database (PostgreSQL recommended)
-- [ ] Set up static file serving (nginx/Apache)
-- [ ] Configure HTTPS with SSL certificates
-- [ ] Set up proper logging and monitoring
-- [ ] Configure backup strategies
+### Production Deployment
 
-### Docker Deployment
-```dockerfile
-FROM python:3.9-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-RUN python manage.py collectstatic --noinput
-EXPOSE 8000
-CMD ["gunicorn", "mechlocator.wsgi:application", "--bind", "0.0.0.0:8000"]
-```
+For production deployment, follow the comprehensive guide in [PRODUCTION_DEPLOYMENT.md](PRODUCTION_DEPLOYMENT.md).
 
-### Environment Variables for Production
-```bash
-DEBUG=False
-SECRET_KEY=your-production-secret-key
-ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
-GOOGLE_MAPS_API_KEY=your-production-api-key
-```
+### Quick Production Setup
+
+1. **Set up production environment**
+   ```bash
+   DEBUG=False
+   ALLOWED_HOSTS=yourdomain.com
+   ```
+
+2. **Configure database (PostgreSQL recommended)**
+   ```bash
+   pip install psycopg2-binary
+   ```
+
+3. **Collect static files**
+   ```bash
+   python manage.py collectstatic
+   ```
+
+4. **Set up web server (Nginx + Gunicorn)**
+   ```bash
+   pip install gunicorn
+   ```
+
+5. **Configure SSL certificate**
+   - Use Let's Encrypt for free SSL
+   - Configure HTTPS redirects
 
 ## 🧪 Testing
 
-### Run Tests
+### Running Tests
 ```bash
 python manage.py test
 ```
@@ -208,40 +288,41 @@ python manage.py test
 pip install coverage
 coverage run --source='.' manage.py test
 coverage report
-coverage html
 ```
 
-## 📊 Performance
+## 📊 Performance Optimization
 
-### Optimization Features
-- Database query optimization with select_related
-- Efficient distance calculations using Geopy
-- Lazy loading of images and content
-- Responsive image handling
-- Caching strategies for static content
+### Database Optimization
+- Indexed queries for location-based searches
+- Efficient distance calculations using Haversine formula
+- Connection pooling for production databases
 
-### Monitoring
-- Activity logging for user behavior analysis
-- Search query tracking for performance insights
-- Error logging and monitoring
-- Performance metrics collection
+### Caching Strategy
+- Static file caching with long expiration
+- Database query caching for frequently accessed data
+- CDN integration for global performance
 
-## 🔒 Security
+### Frontend Optimization
+- Minified CSS and JavaScript
+- Image optimization and lazy loading
+- Progressive Web App features
 
-### Security Features
+## 🔒 Security Considerations
+
+### Authentication Security
+- OTP expiration and rate limiting
+- Account lockout after failed attempts
+- Secure session management
+
+### Data Protection
+- Input validation and sanitization
 - CSRF protection on all forms
-- SQL injection prevention with Django ORM
-- XSS protection with template escaping
-- Secure password hashing
-- Session security configuration
-- Input validation and sanitization
+- SQL injection prevention
 
-### Best Practices
-- Regular security updates
-- Environment variable management
-- HTTPS enforcement in production
-- Rate limiting for API endpoints
-- Input validation and sanitization
+### API Security
+- Rate limiting on API endpoints
+- API key restrictions for Google Maps
+- Secure headers and HTTPS enforcement
 
 ## 🤝 Contributing
 
@@ -252,44 +333,60 @@ coverage html
 5. Open a Pull Request
 
 ### Development Guidelines
-- Follow PEP 8 for Python code
-- Use meaningful commit messages
-- Add tests for new features
+- Follow PEP 8 Python style guide
+- Write comprehensive docstrings
+- Include tests for new features
 - Update documentation as needed
-- Ensure accessibility compliance
 
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## 🆘 Support
+
+### Documentation
+- [Django Documentation](https://docs.djangoproject.com/)
+- [Google Maps API Documentation](https://developers.google.com/maps/documentation)
+- [Bootstrap Documentation](https://getbootstrap.com/docs/)
+
+### Issues and Questions
+- Create an issue on GitHub for bugs or feature requests
+- Check existing issues for solutions
+- Review the deployment guide for common problems
+
+### Community
+- Join our discussions on GitHub
+- Share your experiences and improvements
+- Contribute to the project development
+
 ## 🙏 Acknowledgments
 
-- Django community for the excellent web framework
-- Bootstrap team for the responsive UI framework
-- Google Maps team for the mapping API
-- Font Awesome for the icon library
-- All contributors and users of MechLocator
+- **Django Framework**: Web framework for rapid development
+- **Google Maps API**: Location services and mapping
+- **Bootstrap**: Frontend framework for responsive design
+- **Font Awesome**: Icon library for enhanced UI
+- **Open Source Community**: For inspiration and tools
 
-## 📞 Support
+## 📈 Roadmap
 
-- **Documentation**: [Wiki](https://github.com/yourusername/mechlocator/wiki)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/mechlocator/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/mechlocator/discussions)
-- **Email**: support@mechlocator.com
-
-## 🔮 Future Enhancements
-
-- [ ] Online appointment booking system
-- [ ] Push notifications for updates
-- [ ] User reviews and ratings
-- [ ] AI-based recommendations
-- [ ] Mobile app development
+### Upcoming Features
+- [ ] Real-time chat between users and mechanics
+- [ ] Appointment booking system
+- [ ] Payment integration (Stripe/PayPal)
+- [ ] Push notifications
 - [ ] Multi-language support
 - [ ] Advanced analytics dashboard
-- [ ] Integration with automotive services
+- [ ] Mobile app development
+- [ ] AI-powered mechanic recommendations
+
+### Version History
+- **v1.0.0**: Initial release with core functionality
+- **v1.1.0**: Added OTP authentication
+- **v1.2.0**: Enhanced admin interface
+- **v1.3.0**: Production-ready deployment
 
 ---
 
-**MechLocator** - Connecting drivers with trusted mechanics since 2024 🚗🔧
+**MechLocator** - Connecting you with trusted automotive services, anywhere, anytime. 🚗✨
 
-*Built with ❤️ using Django and modern web technologies*
+**Made with ❤️ by [Vijayapardhu](https://github.com/Vijayapardhu)**
