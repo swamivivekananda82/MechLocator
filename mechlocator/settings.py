@@ -23,7 +23,14 @@ if not DEBUG:
     ALLOWED_HOSTS.extend([
         'mechlocator.onrender.com',
         'www.mechlocator.onrender.com',
+        '*.onrender.com',  # Allow all Render subdomains
         '*',  # Allow all hosts for public internet access
+    ])
+else:
+    # In development, also allow the production domain
+    ALLOWED_HOSTS.extend([
+        'mechlocator.onrender.com',
+        'www.mechlocator.onrender.com',
     ])
 
 # Application definition
