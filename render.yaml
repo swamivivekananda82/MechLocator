@@ -1,0 +1,60 @@
+services:
+  - type: web
+    name: mechlocator
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python gunicorn_start.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.16
+      - key: DJANGO_SETTINGS_MODULE
+        value: mechlocator.settings
+      - key: DEBUG
+        value: False
+      - key: ALLOWED_HOSTS
+        value: "mechlocator.onrender.com,localhost,127.0.0.1"
+      - key: GOOGLE_MAPS_API_KEY
+        value: "AIzaSyDbMOBcw9mj0m6n38hNeGZ-72Z5WHxAcQM"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: EMAIL_HOST
+        value: "smtp.gmail.com"
+      - key: EMAIL_PORT
+        value: "587"
+      - key: EMAIL_USE_TLS
+        value: "True"
+      - key: EMAIL_HOST_USER
+        value: "mechlocator.org@gmail.com"
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        value: "mechlocator.org@gmail.com"
+      - key: OTP_EXPIRY_MINUTES
+        value: "10"
+      - key: MAX_LOGIN_ATTEMPTS
+        value: "5"
+      - key: LOCKOUT_DURATION_MINUTES
+        value: "30"
+      - key: SECURE_SSL_REDIRECT
+        value: "True"
+      - key: CSRF_COOKIE_SECURE
+        value: "True"
+      - key: SESSION_COOKIE_SECURE
+        value: "True"
+      - key: CSRF_COOKIE_HTTPONLY
+        value: "True"
+      - key: SESSION_COOKIE_HTTPONLY
+        value: "True"
+      - key: SECURE_BROWSER_XSS_FILTER
+        value: "True"
+      - key: SECURE_CONTENT_TYPE_NOSNIFF
+        value: "True"
+      - key: SECURE_HSTS_SECONDS
+        value: "31536000"
+      - key: SECURE_HSTS_INCLUDE_SUBDOMAINS
+        value: "True"
+      - key: SECURE_HSTS_PRELOAD
+        value: "True"
+      - key: X_FRAME_OPTIONS
+        value: "DENY"
