@@ -476,12 +476,5 @@ class SearchQueryAdmin(admin.ModelAdmin):
         }
         return render(request, 'admin/mechanics/searchquery/analytics.html', context)
 
-# Register models with default admin site
-# Note: User is registered in urls.py to avoid conflicts
-# Mechanic is already registered with @admin.register decorator
-admin.site.register(ActivityLog, ActivityLogAdmin)
-admin.site.register(SearchQuery, SearchQueryAdmin)
-
-# Also register with default admin site for backward compatibility
-admin.site.unregister(User)
-admin.site.register(User, CustomUserAdmin)
+# Note: Mechanic, ActivityLog, and SearchQuery are already registered with @admin.register decorators
+# User is registered in urls.py to avoid conflicts
