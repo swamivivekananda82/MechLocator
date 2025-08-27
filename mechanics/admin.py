@@ -478,7 +478,7 @@ class SearchQueryAdmin(admin.ModelAdmin):
 
 # Register models with default admin site
 # Note: User is registered in urls.py to avoid conflicts
-admin.site.register(Mechanic, MechanicAdmin)
+# Mechanic is already registered with @admin.register decorator
 admin.site.register(ActivityLog, ActivityLogAdmin)
 admin.site.register(SearchQuery, SearchQueryAdmin)
 
