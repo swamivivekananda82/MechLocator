@@ -15,7 +15,7 @@ import json
 
 from .models import Mechanic, UserProfile, ActivityLog, SearchQuery
 
-# Custom Admin Site
+# Custom Admin Site (keeping for reference)
 class MechLocatorAdminSite(admin.AdminSite):
     site_header = "MechLocator Administration"
     site_title = "MechLocator Admin"
@@ -23,6 +23,11 @@ class MechLocatorAdminSite(admin.AdminSite):
     site_url = "/"
 
 admin_site = MechLocatorAdminSite(name='mechlocator_admin')
+
+# Update default admin site
+admin.site.site_header = "MechLocator Administration"
+admin.site.site_title = "MechLocator Admin"
+admin.site.index_title = "Welcome to MechLocator Administration"
 
 # Enhanced Mechanic Admin
 @admin.register(Mechanic)
@@ -92,6 +97,12 @@ class MechanicAdmin(admin.ModelAdmin):
     def created_date(self, obj):
         return obj.created_at.strftime('%Y-%m-%d')
     created_date.short_description = 'Created'
+    
+    def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
+        """Override changeform_view to add Google Maps API key to context"""
+        extra_context = extra_context or {}
+        extra_context['google_maps_api_key'] = getattr(settings, 'GOOGLE_MAPS_API_KEY', '')
+        return super().changeform_view(request, object_id, form_url, extra_context)
     
     def activate_mechanics(self, request, queryset):
         updated = queryset.update(is_active=True)
@@ -465,11 +476,11 @@ class SearchQueryAdmin(admin.ModelAdmin):
         }
         return render(request, 'admin/mechanics/searchquery/analytics.html', context)
 
-# Register models with custom admin site
-admin_site.register(User, CustomUserAdmin)
-admin_site.register(Mechanic, MechanicAdmin)
-admin_site.register(ActivityLog, ActivityLogAdmin)
-admin_site.register(SearchQuery, SearchQueryAdmin)
+# Register models with default admin site
+# Note: User is registered in urls.py to avoid conflicts
+admin.site.register(Mechanic, MechanicAdmin)
+admin.site.register(ActivityLog, ActivityLogAdmin)
+admin.site.register(SearchQuery, SearchQueryAdmin)
 
 # Also register with default admin site for backward compatibility
 admin.site.unregister(User)
