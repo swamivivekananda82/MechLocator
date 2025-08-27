@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login with OTP - MechLocator{% endblock %}
+
+{% block extra_css %}
+<style>
+    .otp-login-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 0;
+        margin-bottom: 40px;
+    }
+    
+    .otp-login-card {
+        background: white;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: none;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .btn-otp-login {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        border: none;
+        border-radius: 25px;
+        padding: 12px 30px;
+        font-size: 1.1em;
+        transition: all 0.3s;
+        width: 100%;
+    }
+    
+    .btn-otp-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+    
+    .security-badge {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="otp-login-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-4">
+            <i class="fas fa-shield-alt me-3"></i>Secure Login
+        </h1>
+        <p class="lead mb-0">Two-factor authentication with OTP for enhanced security.</p>
+    </div>
+</section>
+
+<!-- Login Form -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="otp-login-card">
+                <div class="text-center mb-4">
+                    <div class="security-badge">
+                        <i class="fas fa-lock me-2"></i>Enhanced Security
+                    </div>
+                    <i class="fas fa-mobile-alt fa-3x text-primary mb-3"></i>
+                    <h3>Login with OTP</h3>
+                    <p class="text-muted">Enter your credentials to receive a secure OTP code</p>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="username" class="form-label">
+                            <i class="fas fa-user me-2"></i>Username
+                        </label>
+                        <input type="text" name="username" class="form-control" id="username" 
+                               placeholder="Enter your username" required autofocus>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock me-2"></i>Password
+                        </label>
+                        <input type="password" name="password" class="form-control" id="password" 
+                               placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-otp-login btn-lg">
+                            <i class="fas fa-paper-plane me-2"></i>Send OTP
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="text-center mt-4">
+                    <p class="text-muted small mb-2">How it works:</p>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <i class="fas fa-user-check text-primary"></i>
+                            <p class="small mb-0">1. Enter credentials</p>
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-envelope text-success"></i>
+                            <p class="small mb-0">2. Get OTP email</p>
+                        </div>
+                        <div class="col-4">
+                            <i class="fas fa-check-circle text-warning"></i>
+                            <p class="small mb-0">3. Verify & login</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 pt-3 border-top">
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <a href="{% url 'login' %}" class="text-decoration-none text-muted">
+                                <i class="fas fa-key me-1"></i>Regular Login
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="{% url 'mechanics:home' %}" class="text-decoration-none text-muted">
+                                <i class="fas fa-home me-1"></i>Back to Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Security Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h3 class="mb-4">Why OTP Authentication?</h3>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <i class="fas fa-shield-alt fa-2x text-primary mb-3"></i>
+                            <h5>Enhanced Security</h5>
+                            <p class="text-muted">Two-factor authentication protects your account</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <i class="fas fa-bell fa-2x text-success mb-3"></i>
+                            <h5>Login Alerts</h5>
+                            <p class="text-muted">Get notified of all login attempts</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <i class="fas fa-history fa-2x text-warning mb-3"></i>
+                            <h5>Session Tracking</h5>
+                            <p class="text-muted">Monitor and manage your active sessions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

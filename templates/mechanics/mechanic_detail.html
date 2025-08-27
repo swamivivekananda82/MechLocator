@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ mechanic.name }} - MechLocator{% endblock %}
+
+{% block extra_css %}
+<style>
+    .mechanic-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px 0;
+        margin-bottom: 30px;
+    }
+    
+    .mechanic-image {
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        max-height: 400px;
+        object-fit: cover;
+    }
+    
+    .rating-stars {
+        color: #ffc107;
+        font-size: 1.2em;
+    }
+    
+    .info-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        border: none;
+    }
+    
+    .call-btn {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        border: none;
+        border-radius: 25px;
+        padding: 15px 30px;
+        font-size: 1.1em;
+        transition: all 0.3s;
+    }
+    
+    .call-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+    }
+    
+    .map-container {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    #detailMap {
+        height: 400px;
+        width: 100%;
+    }
+    
+    .contact-info {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .working-hours {
+        background: #e3f2fd;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .status-badge {
+        font-size: 0.9em;
+        padding: 8px 16px;
+        border-radius: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Mechanic Header -->
+<section class="mechanic-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-5 fw-bold mb-3">
+                    <i class="fas fa-tools me-3"></i>{{ mechanic.name }}
+                </h1>
+                <p class="lead mb-3">
+                    <i class="fas fa-map-marker-alt me-2"></i>{{ mechanic.address }}
+                </p>
+                <div class="d-flex align-items-center mb-3">
+                    <span class="rating-stars me-3">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= mechanic.rating %}
+                                ★
+                            {% else %}
+                                ☆
+                            {% endif %}
+                        {% endfor %}
+                    </span>
+                    <span class="h5 mb-0">{{ mechanic.rating }}/5</span>
+                </div>
+                <div class="d-flex gap-3">
+                    <a href="tel:{{ mechanic.contact }}" class="btn call-btn btn-lg" 
+                       onclick="logCall({{ mechanic.id }})">
+                        <i class="fas fa-phone me-2"></i>Call Now
+                    </a>
+                    <a href="{% url 'mechanics:mechanic_list' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-arrow-left me-2"></i>Back to List
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                {% if mechanic.image %}
+                    <img src="{{ mechanic.image.url }}" alt="{{ mechanic.name }}" class="mechanic-image w-100">
+                {% else %}
+                    <div class="mechanic-image bg-light d-flex align-items-center justify-content-center w-100" style="height: 300px;">
+                        <i class="fas fa-tools fa-5x text-muted"></i>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <!-- Left Column - Details -->
+        <div class="col-lg-8">
+            <!-- Basic Information -->
+            <div class="info-card">
+                <h3 class="mb-4">
+                    <i class="fas fa-info-circle me-2 text-primary"></i>Shop Information
+                </h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Status:</strong> 
+                            {% if mechanic.is_active %}
+                                <span class="badge bg-success status-badge">Active</span>
+                            {% else %}
+                                <span class="badge bg-danger status-badge">Inactive</span>
+                            {% endif %}
+                        </p>
+                        <p><strong>Added:</strong> {{ mechanic.created_at|date:"F d, Y" }}</p>
+                        <p><strong>Last Updated:</strong> {{ mechanic.updated_at|date:"F d, Y" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Phone:</strong> 
+                            <a href="tel:{{ mechanic.contact }}" class="text-decoration-none">
+                                {{ mechanic.contact }}
+                            </a>
+                        </p>
+                        <p><strong>Rating:</strong> {{ mechanic.rating }}/5</p>
+                        <p><strong>Location:</strong> {{ mechanic.latitude }}, {{ mechanic.longitude }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Working Hours -->
+            <div class="working-hours">
+                <h4 class="mb-3">
+                    <i class="fas fa-clock me-2 text-primary"></i>Working Hours
+                </h4>
+                <p class="mb-0">{{ mechanic.working_hours }}</p>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <h4 class="mb-3">
+                    <i class="fas fa-address-book me-2 text-primary"></i>Contact Details
+                </h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Phone:</strong></p>
+                        <a href="tel:{{ mechanic.contact }}" class="btn btn-outline-primary w-100 mb-2">
+                            <i class="fas fa-phone me-2"></i>{{ mechanic.contact }}
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Address:</strong></p>
+                        <p class="mb-0">{{ mechanic.address }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map -->
+            <div class="info-card">
+                <h4 class="mb-3">
+                    <i class="fas fa-map-marked-alt me-2 text-primary"></i>Location
+                </h4>
+                <div class="map-container">
+                    <div id="detailMap"></div>
+                </div>
+                <div class="mt-3">
+                    <a href="https://maps.google.com/?q={{ mechanic.latitude }},{{ mechanic.longitude }}" 
+                       target="_blank" rel="noopener" class="btn btn-outline-primary">
+                        <i class="fas fa-external-link-alt me-2"></i>Open in Google Maps
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column - Actions & Quick Info -->
+        <div class="col-lg-4">
+            <!-- Quick Actions -->
+            <div class="info-card">
+                <h4 class="mb-4">
+                    <i class="fas fa-bolt me-2 text-primary"></i>Quick Actions
+                </h4>
+                <div class="d-grid gap-3">
+                    <a href="tel:{{ mechanic.contact }}" class="btn call-btn btn-lg" 
+                       onclick="logCall({{ mechanic.id }})">
+                        <i class="fas fa-phone me-2"></i>Call Now
+                    </a>
+                    <a href="https://wa.me/{{ mechanic.contact|slice:'1:' }}" 
+                       target="_blank" rel="noopener" class="btn btn-success btn-lg">
+                        <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                    </a>
+                    <button class="btn btn-outline-primary btn-lg" onclick="shareLocation()">
+                        <i class="fas fa-share-alt me-2"></i>Share Location
+                    </button>
+                </div>
+            </div>
+
+            <!-- Rating Details -->
+            <div class="info-card">
+                <h4 class="mb-3">
+                    <i class="fas fa-star me-2 text-warning"></i>Rating Details
+                </h4>
+                <div class="text-center">
+                    <div class="rating-stars mb-2" style="font-size: 2em;">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= mechanic.rating %}
+                                ★
+                            {% else %}
+                                ☆
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <h3 class="mb-2">{{ mechanic.rating }}/5</h3>
+                    <p class="text-muted mb-0">
+                        {% if mechanic.rating >= 4.5 %}
+                            Excellent service!
+                        {% elif mechanic.rating >= 4.0 %}
+                            Very good service
+                        {% elif mechanic.rating >= 3.5 %}
+                            Good service
+                        {% elif mechanic.rating >= 3.0 %}
+                            Satisfactory service
+                        {% else %}
+                            Basic service
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Business Hours Summary -->
+            <div class="info-card">
+                <h4 class="mb-3">
+                    <i class="fas fa-business-time me-2 text-info"></i>Business Hours
+                </h4>
+                <p class="mb-0">{{ mechanic.working_hours|truncatewords:20 }}</p>
+            </div>
+
+            <!-- Report Issue -->
+            <div class="info-card">
+                <h4 class="mb-3">
+                    <i class="fas fa-flag me-2 text-warning"></i>Report Issue
+                </h4>
+                <p class="text-muted small mb-3">Found incorrect information? Let us know!</p>
+                <button class="btn btn-outline-warning w-100" onclick="reportIssue()">
+                    <i class="fas fa-flag me-2"></i>Report Issue
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let detailMap, mechanicMarker;
+
+// Initialize Google Maps for detail view
+function initDetailMap() {
+    const mechanicLocation = { 
+        lat: {{ mechanic.latitude }}, 
+        lng: {{ mechanic.longitude }} 
+    };
+    
+    detailMap = new google.maps.Map(document.getElementById('detailMap'), {
+        zoom: 15,
+        center: mechanicLocation,
+        styles: [
+            {
+                featureType: "poi",
+                elementType: "labels",
+                stylers: [{ visibility: "off" }]
+            }
+        ]
+    });
+    
+    // Add mechanic marker
+    mechanicMarker = new google.maps.Marker({
+        position: mechanicLocation,
+        map: detailMap,
+        title: '{{ mechanic.name }}',
+        icon: {
+            url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+            scaledSize: new google.maps.Size(40, 40)
+        }
+    });
+    
+    // Add info window
+    const infoWindow = new google.maps.InfoWindow({
+        content: `
+            <div style="padding: 15px; max-width: 250px;">
+                <h6 style="margin: 0 0 10px 0; color: #333;">{{ mechanic.name }}</h6>
+                <p style="margin: 0 0 8px 0; font-size: 13px; color: #666;">{{ mechanic.address }}</p>
+                <p style="margin: 0 0 5px 0; font-size: 13px;">
+                    <strong>Rating:</strong> {{ mechanic.rating }}/5
+                </p>
+                <p style="margin: 0 0 5px 0; font-size: 13px;">
+                    <strong>Phone:</strong> {{ mechanic.contact }}
+                </p>
+                <div style="margin-top: 10px;">
+                    <a href="tel:{{ mechanic.contact }}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-phone me-1"></i>Call Now
+                    </a>
+                </div>
+            </div>
+        `
+    });
+    
+    mechanicMarker.addListener('click', () => {
+        infoWindow.open(detailMap, mechanicMarker);
+    });
+}
+
+// Log mechanic call
+function logCall(mechanicId) {
+    fetch('{% url "mechanics:log_call_api" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({ mechanic_id: mechanicId })
+    })
+    .catch(error => console.error('Failed to log call:', error));
+}
+
+// Share location
+function shareLocation() {
+    const locationText = `Check out {{ mechanic.name }} at {{ mechanic.address }}`;
+    const locationUrl = `https://maps.google.com/?q={{ mechanic.latitude }},{{ mechanic.longitude }}`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: '{{ mechanic.name }}',
+            text: locationText,
+            url: locationUrl
+        });
+    } else {
+        // Fallback: copy to clipboard
+        const fullText = `${locationText}\n${locationUrl}`;
+        navigator.clipboard.writeText(fullText).then(() => {
+            alert('Location copied to clipboard!');
+        }).catch(() => {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = fullText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Location copied to clipboard!');
+        });
+    }
+}
+
+// Report issue
+function reportIssue() {
+    const issueText = prompt('Please describe the issue with this mechanic shop:');
+    if (issueText) {
+        // Here you could implement a proper issue reporting system
+        alert('Thank you for reporting this issue. We will review it shortly.');
+        console.log('Issue reported:', issueText);
+    }
+}
+
+// Get CSRF token from cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Initialize map when Google Maps API loads
+window.initDetailMap = initDetailMap;
+</script>
+
+<!-- Google Maps API -->
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places,geometry&v=3.54&region=US&language=en&callback=initDetailMap">
+</script>
+{% endblock %}

@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - MechLocator{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 0;
+        margin-bottom: 40px;
+    }
+    
+    .feature-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .feature-icon {
+        font-size: 3rem;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+    
+    .stats-section {
+        background: #f8f9fa;
+        padding: 60px 0;
+        margin: 40px 0;
+    }
+    
+    .stat-card {
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #007bff;
+        margin-bottom: 10px;
+    }
+    
+    .team-section {
+        background: white;
+        padding: 60px 0;
+    }
+    
+    .team-member {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .team-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        color: white;
+        font-size: 3rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-4">
+            <i class="fas fa-tools me-3"></i>About MechLocator
+        </h1>
+        <p class="lead mb-4">Connecting drivers with trusted mechanic shops since 2024</p>
+        <p class="mb-0">We're revolutionizing how people find automotive services by combining cutting-edge technology with local expertise.</p>
+    </div>
+</section>
+
+<!-- Main Content -->
+<div class="container">
+    <!-- Mission Section -->
+    <section class="py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="mb-4">Our Mission</h2>
+                <p class="lead mb-4">To make finding reliable automotive services as easy as a few clicks, ensuring every driver gets the quality service they deserve.</p>
+                <p>At MechLocator, we understand that car troubles can happen at any time, often when you least expect them. Our platform bridges the gap between drivers in need and skilled mechanics ready to help, creating a seamless experience for both parties.</p>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <i class="fas fa-bullseye fa-5x text-primary"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <h2 class="text-center mb-5">Why Choose MechLocator?</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h4>Real-time Location</h4>
+                    <p>Advanced GPS technology instantly locates the nearest mechanic shops to your current position, saving you time and hassle.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h4>Verified Ratings</h4>
+                    <p>Every mechanic shop is carefully vetted and rated by our community, ensuring you only connect with trusted professionals.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h4>Instant Contact</h4>
+                    <p>One-click calling and messaging features let you reach mechanics immediately, getting help when you need it most.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h4>Smart Filtering</h4>
+                    <p>Filter by distance, rating, services, and availability to find exactly what you're looking for in your area.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>24/7 Availability</h4>
+                    <p>Our platform is always available, helping you find emergency services even in the middle of the night.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Trusted Partners</h4>
+                    <p>We partner only with licensed, insured, and experienced mechanics who meet our strict quality standards.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <h2 class="text-center mb-5">MechLocator by the Numbers</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">1000+</div>
+                        <p class="mb-0">Mechanic Shops</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">50,000+</div>
+                        <p class="mb-0">Happy Customers</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">99.9%</div>
+                        <p class="mb-0">Uptime</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <p class="mb-0">Support</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-5">
+        <h2 class="text-center mb-5">How MechLocator Works</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                        <span class="h3 mb-0">1</span>
+                    </div>
+                    <h4>Find Your Location</h4>
+                    <p>Allow location access or manually set your position to discover nearby mechanic shops.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                        <span class="h3 mb-0">2</span>
+                    </div>
+                    <h4>Browse Options</h4>
+                    <p>View detailed information, ratings, and reviews for each mechanic shop in your area.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                        <span class="h3 mb-0">3</span>
+                    </div>
+                    <h4>Connect & Get Help</h4>
+                    <p>Call or message your chosen mechanic directly through our platform for immediate assistance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="py-5">
+        <h2 class="text-center mb-5">Built with Modern Technology</h2>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="text-center">
+                    <i class="fab fa-python fa-3x text-primary mb-3"></i>
+                    <h5>Django Backend</h5>
+                    <p class="text-muted">Robust and scalable web framework</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="text-center">
+                    <i class="fas fa-database fa-3x text-success mb-3"></i>
+                    <h5>SQLite Database</h5>
+                    <p class="text-muted">Fast and reliable data storage</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="text-center">
+                    <i class="fab fa-google fa-3x text-danger mb-3"></i>
+                    <h5>Google Maps API</h5>
+                    <p class="text-muted">Advanced mapping and geolocation</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="text-center">
+                    <i class="fab fa-js fa-3x text-warning mb-3"></i>
+                    <h5>Modern JavaScript</h5>
+                    <p class="text-muted">Interactive and responsive interface</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2 class="text-center mb-5">Our Team</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="team-member">
+                        <div class="team-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h5>Development Team</h5>
+                        <p class="text-muted">Experienced developers passionate about creating innovative solutions</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-member">
+                        <div class="team-avatar">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5>Support Team</h5>
+                        <p class="text-muted">Dedicated professionals ready to help with any questions or issues</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-member">
+                        <div class="team-avatar">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h5>Partnership Team</h5>
+                        <p class="text-muted">Building relationships with trusted mechanic shops nationwide</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact CTA -->
+    <section class="py-5 text-center">
+        <div class="bg-light rounded-3 p-5">
+            <h3 class="mb-3">Ready to Get Started?</h3>
+            <p class="lead mb-4">Join thousands of drivers who trust MechLocator for their automotive service needs.</p>
+            <a href="{% url 'mechanics:home' %}" class="btn btn-primary btn-lg me-3">
+                <i class="fas fa-search me-2"></i>Find Mechanics
+            </a>
+            <a href="{% url 'mechanics:contact' %}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-envelope me-2"></i>Contact Us
+            </a>
+        </div>
+    </section>
+</div>
+{% endblock %}

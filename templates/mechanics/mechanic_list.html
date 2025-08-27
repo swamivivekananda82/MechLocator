@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}All Mechanic Shops - MechLocator{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 0;
+    }
+    
+    .search-section {
+        background: #f8f9fa;
+        padding: 30px 0;
+    }
+    
+    .mechanic-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .mechanic-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .mechanic-image {
+        height: 200px;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3rem;
+    }
+    
+    .rating-stars {
+        color: #ffc107;
+    }
+    
+    .btn-call {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        border: none;
+        border-radius: 25px;
+        color: white;
+        text-decoration: none;
+    }
+    
+    .btn-details {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        border: none;
+        border-radius: 25px;
+        color: white;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">
+            <i class="fas fa-tools me-3"></i>All Mechanic Shops
+        </h1>
+        <p class="lead mb-0">Discover trusted mechanic shops in your area</p>
+    </div>
+</section>
+
+<!-- Search Section -->
+<section class="search-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form method="get" class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" name="search" class="form-control form-control-lg" 
+                               placeholder="Search shops..." value="{{ search_query }}">
+                    </div>
+                    <div class="col-md-3">
+                        <select name="rating" class="form-select form-select-lg">
+                            <option value="">All Ratings</option>
+                            <option value="4.5" {% if rating_filter == '4.5' %}selected{% endif %}>4.5+ Stars</option>
+                            <option value="4.0" {% if rating_filter == '4.0' %}selected{% endif %}>4.0+ Stars</option>
+                            <option value="3.5" {% if rating_filter == '3.5' %}selected{% endif %}>3.5+ Stars</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Results -->
+<section class="py-5">
+    <div class="container">
+        {% if mechanics %}
+            <div class="row g-4">
+                {% for mechanic in mechanics %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="mechanic-card">
+                            {% if mechanic.image %}
+                                <img src="{{ mechanic.image.url }}" class="card-img-top" alt="{{ mechanic.name }}" style="height: 200px; object-fit: cover;">
+                            {% else %}
+                                <div class="mechanic-image">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                            {% endif %}
+                            
+                            <div class="card-body p-4">
+                                <h5 class="card-title fw-bold">{{ mechanic.name }}</h5>
+                                <p class="card-text text-muted">
+                                    <i class="fas fa-map-marker-alt me-1"></i>{{ mechanic.address|truncatechars:50 }}
+                                </p>
+                                
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="rating-stars">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= mechanic.rating %}
+                                                <i class="fas fa-star"></i>
+                                            {% else %}
+                                                <i class="far fa-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                        <span class="ms-2 text-muted">({{ mechanic.rating }})</span>
+                                    </div>
+                                    <span class="badge bg-success">{{ mechanic.rating }}★</span>
+                                </div>
+                                
+                                <div class="d-grid gap-2">
+                                    <a href="{% url 'mechanics:mechanic_detail' mechanic.id %}" class="btn btn-details">
+                                        <i class="fas fa-info-circle me-2"></i>View Details
+                                    </a>
+                                    <a href="tel:{{ mechanic.contact }}" class="btn btn-call">
+                                        <i class="fas fa-phone me-2"></i>Call Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if mechanics.has_other_pages %}
+                <nav class="mt-5">
+                    <ul class="pagination justify-content-center">
+                        {% if mechanics.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ mechanics.previous_page_number }}">Previous</a>
+                            </li>
+                        {% endif %}
+                        
+                        <li class="page-item active">
+                            <span class="page-link">Page {{ mechanics.number }} of {{ mechanics.paginator.num_pages }}</span>
+                        </li>
+                        
+                        {% if mechanics.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ mechanics.next_page_number }}">Next</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+            
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-search fa-4x text-muted mb-4"></i>
+                <h3>No mechanic shops found</h3>
+                <p class="text-muted">Try adjusting your search criteria.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
