@@ -389,4 +389,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **MechLocator** - Connecting you with trusted automotive services, anywhere, anytime. 🚗✨
 
-**Made with ❤️ by [Vijayapardhu](https://github.com/Vijayapardhu)**
+**Made with ❤️ by [swamivivekananda](https://github.com/swamivivekananda82)**
